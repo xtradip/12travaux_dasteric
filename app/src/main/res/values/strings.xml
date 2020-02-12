@@ -15,5 +15,9 @@
     <string name="datev2">2014-10-01</string>
     <string name="dateE">Expire le :</string>
     <string name="dateE2">2022-12-17</string>
+    <string name="champNom">Nom</string>
+    <string name="champPrenom">Prénom</string>
+    <string name="homme">Homme</string>
+    <string name="femme">Femme</string>
 </resources>
 
