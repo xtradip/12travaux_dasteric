@@ -19,5 +19,6 @@
     <string name="champPrenom">Prénom</string>
     <string name="homme">Homme</string>
     <string name="femme">Femme</string>
+    <string name="signature">Afficher signature</string>
 </resources>
 
