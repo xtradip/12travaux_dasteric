@@ -2,7 +2,16 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Icon;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,12 +19,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
     public static TextView textViewPrenom;
     public static ImageView imageViewSignature;
     public static CheckBox checkBoxSignature;
+    public static Button buttonToast;
+    public static Button buttonNotification;
+    private NotificationManager nm;
+    private int count;
+    private static String CHANNEL_ID = "id_257";
+    private static String CHANNEL_NAME = "channel_257";
+    private static String CHANNEL_DESCRIPTION = "description_257";
+    private static int NOTIFICATION_ID = 1111;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,11 +126,78 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+            createNotificationChannel();
 
+
+            buttonToast = (Button)findViewById(R.id.buttonToast);
+            buttonNotification = (Button)findViewById(R.id.buttonNotification);
+            buttonToast.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this,"Les 12 Travaux d'AstEric !!",Toast.LENGTH_LONG).show();
+                }
+            });
+            buttonNotification.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Intent intent = new Intent(this,NotificationActivity.class);
+//                    PendingIntent pIntent = PendingIntent.getActivity(this,0,intent,0);
+                    Intent intent = new Intent(MainActivity.this,NotificationActivity.class);
+                    PendingIntent pIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
+                    Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+                    Notification.Action action1 = new Notification.Action.Builder(
+                            Icon.createWithResource(MainActivity.this, R.mipmap.ic_launcher_round),
+                            "Un",
+                            pIntent).build();
+
+
+                    Notification n  = new Notification.Builder(MainActivity.this, CHANNEL_ID)
+                            .setContentTitle("Message - démo INF257 (API 26+)")
+                            .setContentText("C'est un exemple de notification avec channel")
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentIntent(pIntent)
+                            .setNumber(count++)
+                            .setAutoCancel(true)
+                            .setOngoing(false)       // Impossible de supprimer la notification sauf par programmation
+                            .setFullScreenIntent(pIntent, true)
+                            .setStyle(new Notification.BigTextStyle().bigText("IMPORTANT"))
+                            .setTicker("Hey! tu as recu un message!")
+                            .addAction(action1)
+                            .build();
+                    try{
+                        nm.notify(NOTIFICATION_ID, n);
+                    }
+                    catch(Exception e){
+                        Log.i("DICJ", e.getMessage(), e);
+                    }
+
+
+
+                }
+            });
 
         }
 
 
+    }
+
+    private void createNotificationChannel() {
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
+            channel.setDescription(CHANNEL_DESCRIPTION);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            nm = getSystemService(NotificationManager.class);
+            //nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            nm.createNotificationChannel(channel);
+        }
+        else
+            Log.i("DIM", "VERSION ANDROID < API 26, Voir exemple Notification_25_moins");
     }
 
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -132,9 +218,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             setContentView(R.layout.activity_main);
         }
         else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             setContentView(R.layout.activity_main);
         }
     }
