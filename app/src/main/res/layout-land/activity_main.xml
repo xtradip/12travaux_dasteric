@@ -296,7 +296,8 @@
                     android:layout_height="400dp"
                     android:layout_weight="0"
                     android:background="@drawable/border"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
 
 
                     <TableRow
@@ -321,7 +322,7 @@
                             android:ems="10"
 
                             android:inputType="textPersonName"
-                            android:hint="Nom"/>
+                            android:hint="@string/champNom"/>
                     </TableRow>
 
                     <TableRow
@@ -346,7 +347,7 @@
                             android:ems="10"
 
                             android:inputType="textPersonName"
-                            android:hint="Prénom"/>
+                            android:hint="@string/champPrenom"/>
                     </TableRow>
 
                     <TableRow
@@ -401,7 +402,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:checked="true"
+
                             />
 
                     </TableRow>

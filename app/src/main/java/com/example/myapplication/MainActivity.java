@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,17 +53,32 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_main);
+        textViewPrenom = (TextView)findViewById(R.id.textViewPrenom);
+
+        textViewNom =  (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? (TextView)findViewById(R.id.textViewwNom) : (TextView)findViewById(R.id.textViewNom);
+        textViewSexe = (TextView)findViewById(R.id.textViewSexeP);
+        imageViewSignature = (ImageView)findViewById(R.id.imageViewSignature);
+        imageViewSignature.setVisibility(View.VISIBLE);
+        switchSexe = new Switch(getApplicationContext());
+        switchSexe.setChecked(false);
+        checkBoxSignature = new CheckBox(getApplicationContext());
+        checkBoxSignature.setChecked(true);
+        if(savedInstanceState != null) {
+            switchSexe.setChecked(savedInstanceState.getBoolean("swtichSexe"));
+            checkBoxSignature.setChecked(savedInstanceState.getBoolean("checkSignature"));
+            Log.i("DIM","[ONCREATE] [SAVED] checkBoxSignature --->" + savedInstanceState.getBoolean("checkSignature"));
+            Log.i("DIM","[ONCREATE] [OBJECT] checkBoxSignature --->" + checkBoxSignature.isChecked());
+        }
         if(savedInstanceState != null && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
             editTextNom = (EditText)findViewById(R.id.editTextNom);
             editTextPrenom = (EditText)findViewById(R.id.editTextPrenom);
 
-            textViewPrenom = (TextView)findViewById(R.id.textViewPrenom);
-            textViewNom = (TextView)findViewById(R.id.textViewwNom);
+
 
             editTextPrenom.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -96,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            textViewSexe = (TextView)findViewById(R.id.textViewSexeP);
+
             switchSexe = (Switch)findViewById(R.id.switchSexe);
             switchSexe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -114,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
             });
 
             checkBoxSignature = (CheckBox)findViewById(R.id.checkBoxSignature);
-            imageViewSignature = (ImageView)findViewById(R.id.imageViewSignature);
+            Log.i("DIM","[ONCREATE] [OBJECT] checkBoxSignature --->" + checkBoxSignature.isChecked());
+            checkBoxSignature.setChecked(savedInstanceState.getBoolean("checkSignature"));
             checkBoxSignature.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -146,14 +166,17 @@ public class MainActivity extends AppCompatActivity {
                     PendingIntent pIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
                     Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+                    Intent intentActionNotification = new Intent(Intent.ACTION_VIEW, Uri.parse("https://i.ytimg.com/vi/2En63SCcSEI/maxresdefault.jpg"));
+                    PendingIntent pendingIntentAction = PendingIntent.getActivity(MainActivity.this, 0, intentActionNotification, 0);
+
                     Notification.Action action1 = new Notification.Action.Builder(
                             Icon.createWithResource(MainActivity.this, R.mipmap.ic_launcher_round),
-                            "Un",
-                            pIntent).build();
-
+                            "Ouverture page web",
+                            pendingIntentAction).build();
+                    Log.i("DIM",pendingIntentAction.getIntentSender().toString());
 
                     Notification n  = new Notification.Builder(MainActivity.this, CHANNEL_ID)
-                            .setContentTitle("Message - démo INF257 (API 26+)")
+                            .setContentTitle("Notification - Robert Byrka (API 26+)")
                             .setContentText("C'est un exemple de notification avec channel")
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentIntent(pIntent)
@@ -162,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
                             .setOngoing(false)       // Impossible de supprimer la notification sauf par programmation
                             .setFullScreenIntent(pIntent, true)
                             .setStyle(new Notification.BigTextStyle().bigText("IMPORTANT"))
-                            .setTicker("Hey! tu as recu un message!")
                             .addAction(action1)
                             .build();
                     try{
@@ -204,12 +226,13 @@ public class MainActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
         }
     }
 
@@ -224,12 +247,120 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
         }
         else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             setContentView(R.layout.activity_main);
         }
+
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.menu_toast:
+                Toast.makeText(MainActivity.this, "Menu Toast",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.menu_log:
+                Toast.makeText(MainActivity.this, "Log effectués",
+                        Toast.LENGTH_SHORT).show();
+                Log.i("DIM","Menu log !");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("DIM", "onDestroy");
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("DIM", "onPause");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("DIM", "onRestart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("DIM", "onResume");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.i("DIM", "onRestoreInstanceState");
+        if (savedInstanceState != null ) {
+
+            String nom = savedInstanceState.getString("Nom");
+            String prenom = savedInstanceState.getString("Prenom");
+            boolean switchSex = savedInstanceState.getBoolean("switchSexe");
+            boolean checkSignature = savedInstanceState.getBoolean("checkSignature");
+
+            Log.i("DIM","NOM RESTORE ----> " + nom);
+            if(nom != null)
+                textViewNom.setText(savedInstanceState.getString("Nom"));
+            if(prenom != null)
+                textViewPrenom.setText(savedInstanceState.getString("Prenom"));
+
+
+            if(switchSex)
+                textViewSexe.setText("F");
+            else
+                textViewSexe.setText("H");
+            if(checkSignature)
+                imageViewSignature.setVisibility(View.VISIBLE);
+            else
+                imageViewSignature.setVisibility(View.INVISIBLE);
+            switchSexe.setChecked(switchSex);
+            Log.i("DIM","[ONRESTORE] checkBoxSignature --->" + checkSignature);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i("DIM", "onSaveInstanceState");
+
+        outState.putString("Nom",textViewNom.getText().toString());
+        outState.putString("Prenom",textViewPrenom.getText().toString());
+        Log.i("DIM","NOM SAVE -> " + textViewNom.getText().toString());
+
+        Log.i("DIM" , "SwitchSexe ----> " + switchSexe.isChecked());
+        outState.putBoolean("switchSexe",switchSexe.isChecked());
+        outState.putBoolean("checkSignature",checkBoxSignature.isChecked());
+
+        Log.i("DIM","[ONSAVE] checkBoxSignature --->" + checkBoxSignature.isChecked());
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("DIM", "onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("DIM", "onStop");
+    }
 
 }

@@ -1,27 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="permis">Permis de conduire</string>
+    <string name="app_name">12 Travaux d\'AstEric</string>
+    <string name="permis">Driver\'s license</string>
     <string name="numero_permis">L1531-171374-08</string>
     <string name="nom">Harris</string>
     <string name="prenom">Melvin</string>
-    <string name="dateN">Date de naissance (A-M-J) :</string>
+    <string name="dateN">Date of birth (A-M-J) :</string>
     <string name="dateN2">1974-12-17</string>
     <string name="adresse">333, Boulevard jean-lesage \napp, 432, \nQuébec (QC) G1K 8J6</string>
-    <string name="sexe">Sexe :</string>
+    <string name="sexe">Sex :</string>
     <string name="sexe2">H</string>
     <string name="classe">Classe(s) :</string>
     <string name="classe2">1 2 3 4A 4B 4C 5 6A</string>
-    <string name="dateV">Valide le :</string>
+    <string name="dateV">From :</string>
     <string name="datev2">2014-10-01</string>
-    <string name="dateE">Expire le :</string>
+    <string name="dateE">To :</string>
     <string name="dateE2">2022-12-17</string>
-    <string name="champNom">Nom</string>
-    <string name="champPrenom">Prénom</string>
-    <string name="homme">Homme</string>
-    <string name="femme">Femme</string>
-    <string name="signature">Afficher signature</string>
+    <string name="champNom">Last Name</string>
+    <string name="champPrenom">First name</string>
+    <string name="homme">Man</string>
+    <string name="femme">Women</string>
+    <string name="signature">Show signature</string>
     <string name="menu_toast">Toast</string>
     <string name="menu_log">Log</string>
 </resources>
-
-

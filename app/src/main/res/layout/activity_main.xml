@@ -54,7 +54,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/textViewNom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/nom"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/textViewPrenom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/prenom"
@@ -142,7 +142,7 @@
                     android:textColor="@color/blue"/>
 
                 <TextView
-                    android:id="@+id/textView26"
+                    android:id="@+id/textViewSexeP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sexe2"
@@ -240,7 +240,7 @@
                 app:srcCompat="@drawable/bigsmoke" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/imageViewSignature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/bigsmoke_signature" />
