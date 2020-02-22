@@ -10,8 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="landscape"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/carte"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".SecondActivity"></activity>
         <activity android:name=".NotificationActivity" />
         <activity
             android:name=".MainActivity"

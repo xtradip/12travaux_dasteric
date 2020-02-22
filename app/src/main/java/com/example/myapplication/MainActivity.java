@@ -44,16 +44,21 @@ public class MainActivity extends AppCompatActivity {
     public static CheckBox checkBoxSignature;
     public static Button buttonToast;
     public static Button buttonNotification;
+    public static Button buttonOuverturePageWeb;
+    public static Button buttonSecondActivity;
     private NotificationManager nm;
     private int count;
     private static String CHANNEL_ID = "id_257";
     private static String CHANNEL_NAME = "channel_257";
     private static String CHANNEL_DESCRIPTION = "description_257";
     private static int NOTIFICATION_ID = 1111;
+    public static String EXTRA_MESSAGE;
+    private static final int REQUEST_CODE_SECOND_ACTIVITY = 13;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_main);
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         checkBoxSignature = new CheckBox(getApplicationContext());
         checkBoxSignature.setChecked(true);
         if(savedInstanceState != null) {
+
             switchSexe.setChecked(savedInstanceState.getBoolean("swtichSexe"));
             checkBoxSignature.setChecked(savedInstanceState.getBoolean("checkSignature"));
             Log.i("DIM","[ONCREATE] [SAVED] checkBoxSignature --->" + savedInstanceState.getBoolean("checkSignature"));
@@ -182,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                             .setContentIntent(pIntent)
                             .setNumber(count++)
                             .setAutoCancel(true)
-                            .setOngoing(false)       // Impossible de supprimer la notification sauf par programmation
+                            .setOngoing(false)
                             .setFullScreenIntent(pIntent, true)
                             .setStyle(new Notification.BigTextStyle().bigText("IMPORTANT"))
                             .addAction(action1)
@@ -198,10 +204,39 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+            buttonOuverturePageWeb = (Button) findViewById(R.id.buttonOuverturePageWeb);
+            buttonOuverturePageWeb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentWeb = new Intent(Intent.ACTION_VIEW, Uri.parse("https://i.ytimg.com/vi/2En63SCcSEI/maxresdefault.jpg"));
+                    startActivity(intentWeb);
+                }
+            });
+
+            buttonSecondActivity = (Button) findViewById(R.id.buttonSecondActivity);
+            buttonSecondActivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent redirectionIntent = new Intent(MainActivity.this,SecondActivity.class);
+                    int random = (int)(Math.random() * 200) + 0;
+                    Log.i("DIM","RANDOM ---> " + random);
+                    redirectionIntent.putExtra(EXTRA_MESSAGE,String.valueOf(random));
+                    startActivityForResult(redirectionIntent,REQUEST_CODE_SECOND_ACTIVITY);
+                }
+            });
 
         }
 
 
+    }
+    protected void onActivityResult(int requestCode,int resultCode,Intent data) {
+        Log.i("DIM","[RequestCode] = " + requestCode);
+        Log.i("DIM","[ResultCode] = " + resultCode);
+        if(requestCode == REQUEST_CODE_SECOND_ACTIVITY) {
+            if(resultCode == 2) {
+                Toast.makeText(MainActivity.this,data.getExtras().getString(SecondActivity.RESPONSE_SECOND_ACTIVITY),Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void createNotificationChannel() {
@@ -228,9 +263,9 @@ public class MainActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(
 //                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                              View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             );
         }

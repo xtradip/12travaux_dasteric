@@ -23,4 +23,8 @@
     <string name="signature">Show signature</string>
     <string name="menu_toast">Toast</string>
     <string name="menu_log">Log</string>
+    <string name="webPage">Open web page</string>
+    <string name="secondActivity">Second activity</string>
+    <string name="hintSendResponse">Send response</string>
+    <string name="buttonSendResponse">SEND</string>
 </resources>

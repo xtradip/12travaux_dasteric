@@ -55,10 +55,7 @@
 
                             <ImageView
                                 android:id="@+id/imageView2"
-                                android:layout_width="210dp"
-                                android:layout_height="210dp"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginTop="20dp"
+                                style="@style/carte.section1.image"
                                 app:srcCompat="@drawable/bigsmoke" />
 
                             <ImageView
@@ -101,9 +98,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/numero_permis"
-                                android:textColor="@color/black"
+                                style="@style/carte.section1"
+
                                 android:textSize="50dp"
-                                android:textStyle="bold" />
+                                />
 
                             <TableLayout
                                 android:layout_width="match_parent"
@@ -119,10 +117,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0"
                                         android:text="@string/nom"
-                                        android:textAllCaps="true"
-                                        android:textColor="@color/black"
+                                        style="@style/carte.section1"
                                         android:textSize="25dp"
-                                        android:textStyle="bold" />
+                                        />
                                 </TableRow>
 
                                 <TableRow
@@ -135,10 +132,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0"
                                         android:text="@string/prenom"
-                                        android:textAllCaps="true"
-                                        android:textColor="@color/black"
+                                        style="@style/carte.section1"
                                         android:textSize="25dp"
-                                        android:textStyle="bold" />
+                                        />
                                 </TableRow>
 
                                 <TableRow
@@ -160,9 +156,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:text="@string/dateN2"
-                                        android:textAllCaps="true"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        style="@style/carte.section1" />
                                 </TableRow>
 
                             </TableLayout>
@@ -177,10 +171,9 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="left"
                                     android:text="@string/adresse"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/black"
+                                    style="@style/carte.section1"
                                     android:textSize="20dp"
-                                    android:textStyle="bold" />
+                                    />
 
 
                                 <TextView
@@ -239,8 +232,7 @@
                                         android:layout_marginLeft="2dp"
                                         android:layout_weight="1"
                                         android:text="@string/classe2"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        style="@style/carte.section1" />
                                 </TableRow>
 
                                 <TableRow
@@ -260,8 +252,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="2dp"
                                         android:text="@string/datev2"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        style="@style/carte.section1" />
 
                                     <TextView
                                         android:id="@+id/textView14"
@@ -276,8 +267,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="2dp"
                                         android:text="@string/dateE2"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        style="@style/carte.section1" />
                                 </TableRow>
 
                                 <TableRow
@@ -427,6 +417,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Notification" />
+                    <Button
+                        android:id="@+id/buttonOuverturePageWeb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/webPage" />
+                    <Button
+                        android:id="@+id/buttonSecondActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/secondActivity" />
                 </LinearLayout>
 
             </LinearLayout>
